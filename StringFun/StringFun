@@ -1,0 +1,54 @@
+/*Eric Grube
+ * COP 3330 Section 0001
+ * This program does some string manipulations
+ */
+
+import java.util.*;
+
+public class StringFun {
+
+	
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+	    System.out.println(" ");
+	    
+	    //Print out length of a String
+	    String word1 = sc.next();
+	    
+	    System.out.println(word1.length());
+	    
+	    //Splitting a string into two strings with even and odd letters
+	    String word2 = sc.next();
+	    	StringBuilder even = new StringBuilder();
+	    	StringBuilder odd = new StringBuilder();
+	    		for(int i = 0; i < word2.length(); i++){
+	    			if(i % 2 == 0){
+	    				even.append(word2.charAt(i));
+	    			}
+	    			else{
+	    				odd.append(word2.charAt(i));
+	    			}	    			
+	    		}
+	    	System.out.println(even + " " + odd);
+	    
+	    //Letter Substitution
+	    String word3 = sc.next();
+	    String word4 = sc.next();
+	    String word5 = sc.next();
+	    
+	    String word6 = word3.replace(word4, word5);
+	    System.out.println(word6);
+	    
+	    //Lexicographically smallest word
+	    String spaceEater = sc.next();
+	    String theSentence = sc.nextLine();
+	    String [] theWords = theSentence.split(" ");
+	    Arrays.sort(theWords);
+	    System.out.println(theWords[1]);
+	    
+	    		
+		sc.close();
+	}
+
+}
