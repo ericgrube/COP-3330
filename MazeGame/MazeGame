@@ -1,0 +1,229 @@
+/*Eric Grube
+ * COP 3330 Section 0001
+ * This program is a short maze game where the user "P" must navigate the maze to get the treasure "T"
+ */
+
+import java.util.*;
+import java.io.*;
+
+public class MazeGame {
+
+	public static void main(String[] args) throws Exception {
+		
+		//Read in the maze file
+		Scanner sc = new Scanner(new File("maze.txt"));
+		
+		//Take in the number of rows and columns for the maze
+		int rows = sc.nextInt();
+		int columns = sc.nextInt();
+		
+		//Get info for the treasure maze
+		char[][] treasureMaze = new char[rows][columns];
+			for(int i = 0; i < rows; i++){
+				String line = sc.next();
+				if(line == null){
+					System.out.println("Not enough lines!");
+					return;
+				}
+				treasureMaze[i] = line.toCharArray();
+			}
+		
+		//Display the treasure maze using the display object with the users first set of directions
+		display(treasureMaze);
+		directions();
+		
+		//Setup initial position for Player "P"
+		int vertical = 0;
+		int horizontal = 0;
+		
+		//This while loop keeps the program running until the user finds the Treasure "T"
+		while(treasureMaze[vertical][horizontal] != 'T'){
+			//Make the scanner for the user movement
+			Scanner move = new Scanner(System.in);
+			
+			//Make a variable for the users move choice
+			int moveChoice = move.nextInt();
+			
+			//Return the users choice to them
+			if(moveChoice == 1){
+				System.out.println("You chose to move up.");
+			}
+			else if(moveChoice == 2){
+				System.out.println("You chose to move down.");
+			}
+			else if(moveChoice == 3){
+				System.out.println("You chose to move left.");
+			}
+			else if(moveChoice == 4){
+				System.out.println("You chose to move right.");
+			}
+			else{
+				return;
+			}
+			
+			
+			//Moving the Player: These commands use the users move choice and make it happen on the maze
+			
+			//Moving up
+			if(moveChoice == 1){
+				if(vertical - 1 < 0){
+					System.out.println("Cannot move past cave boundary! Try something else!\n");
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical - 1][horizontal] == '.'){
+					treasureMaze[vertical - 1][horizontal] = 'P';
+					treasureMaze[vertical][horizontal] = '.';
+					vertical -= 1;
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical - 1][horizontal] == 'X'){
+					System.out.println("Cannot move into cave-in! Try something else!\n");
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical - 1][horizontal] == 'T'){
+					System.out.println("Congratulations, you found the treasure!");
+					break;
+				}
+				else{
+					return;
+				}
+			}
+			
+			//Moving Down
+			else if(moveChoice == 2){
+				if(vertical + 1 < 0){
+					System.out.println("Cannot move past cave boundary! Try something else!.\n");
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical + 1][horizontal] == '.'){
+					treasureMaze[vertical + 1][horizontal] = 'P';
+					treasureMaze[vertical][horizontal] = '.';
+					vertical += 1;
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical + 1][horizontal] == 'X'){
+					System.out.println("Cannot move into cave-in! Try something else!\n");
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical + 1][horizontal] == 'T'){
+					System.out.println("Congratulations, you found the treasure!");
+					break;
+				}
+				else{
+					return;
+				}
+			
+			}
+			
+			//Moving Left
+			else if(moveChoice == 3){
+				if(horizontal - 1 < 0){
+					System.out.println("Cannot move past cave bounday! Try something else!.\n");
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical][horizontal - 1] == '.'){
+					treasureMaze[vertical][horizontal - 1] = 'P';
+					treasureMaze[vertical][horizontal] = '.';
+					horizontal -= 1;
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical][horizontal - 1] == 'X'){
+					System.out.println("Cannot move into cave-in!Try something else!\n");
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical][horizontal - 1] == 'T'){
+					System.out.println("Congratulations, you found the treasure!");
+					break;
+				}
+				else{
+					return;
+				}
+			}
+			
+			//Moving Right
+			else if(moveChoice == 4){
+				if(horizontal + 1 < 0){
+					System.out.println("Cannot move past cave bounday! Try something else.\n");
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical][horizontal + 1] == '.'){
+					treasureMaze[vertical][horizontal + 1] = 'P';
+					treasureMaze[vertical][horizontal] = '.';
+					horizontal += 1;
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical][horizontal + 1] == 'X'){
+					System.out.println("Cannot move into cave-in! Try something else!\n");
+					display(treasureMaze);
+					directions();
+				}
+				else if(treasureMaze[vertical][horizontal + 1] == 'T'){
+					System.out.println("Congratulations, you found the treasure!");
+					break;
+				}
+				else{
+					return;
+				}
+			}
+			
+			else{
+				System.out.println("Bye!");
+			}
+		}
+			
+			sc.close();
+			
+		}
+		
+		
+		
+	
+
+	
+	//Display: This object displays the treasure maze
+	public static void display(char x[][]){
+		for(int row = 0; row < x.length; row++){
+			for(int column = 0; column < x[row].length; column++){
+				System.out.print(x[row][column]);
+			}
+			System.out.println();
+		}
+	}
+
+	
+	//Directions: Displays the user directions for moving in the treasure maze
+	static void directions(){
+		System.out.println();
+		System.out.println("You May:");
+		System.out.println("\t1.) Move Up");
+		System.out.println("\t2.) Move Down");
+		System.out.println("\t3.) Move Left");
+		System.out.println("\t4.) Move Right");
+		System.out.println("\t0.) Quit");
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
